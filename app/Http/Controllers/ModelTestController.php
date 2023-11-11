@@ -13,6 +13,41 @@ class ModelTestController extends Controller
         return view('landing');
     }
 
+    public function history()
+    {
+        $images = Image::all();
+
+        if ($images->isEmpty()) {
+            return view('history', ['images' => null]);
+        } else {
+            return view('history', ['images' => $images]);
+        }
+    }
+
+    public function history_admin()
+    {
+        $images = Image::all();
+
+        if ($images->isEmpty()) {
+            return view('history-admin', ['images' => null]);
+        } else {
+            return view('history-admin', ['images' => $images]);
+        }
+    }
+
+    public function history_delete(Request $request)
+    {
+        $id = $request->route('id');
+        $images = Image::all();
+
+        if ($id == null) {
+            return redirect('/history/admin');
+        } else {
+            $delete_image = Image::where('id', $id)->delete();
+            return redirect('/history/admin');
+        }
+    }
+
     public function makePrediction(Request $request)
     {
         $request->validate([
@@ -29,8 +64,6 @@ class ModelTestController extends Controller
             'image.jpg'
         )->post('http://127.0.0.1:5000/predict', $data);
 
-        // dd($response->status(), $response->headers(), $response->body());
-
         if ($response->successful()) {
             $predictions = $response->json('prediction');
             $imagePath = $request->file('image')->store('public/images');
@@ -38,14 +71,15 @@ class ModelTestController extends Controller
 
             $image = new Image();
             $image->path = $relativeImagePath;
+            $image->prediction = $predictions;
             $image->save();
 
-            return view('landing', [
+            return view('predict', [
                 'predictions' => $predictions,
                 'imagePath' => $imagePath
             ]);
         } else {
-            return view('landing');
+            return view('predict');
         }
     }
 }

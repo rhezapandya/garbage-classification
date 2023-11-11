@@ -18,5 +18,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/landing', [ModelTestController::class, 'index'])->name('landing');
-Route::post('/landing/predict', [ModelTestController::class, 'makePrediction'])->name('make-prediction');
+Route::get('/classification', [ModelTestController::class, 'index'])->name('classification');
+Route::get('/history', [ModelTestController::class, 'history'])->name('history');
+Route::get('/history/admin', [ModelTestController::class, 'history_admin'])->name('history_admin');
+Route::get('/history/admin/delete/{id}', [ModelTestController::class, 'history_delete'])->name('history_delete');
+Route::post('/classification/predict', [ModelTestController::class, 'makePrediction'])->name('make-prediction');
