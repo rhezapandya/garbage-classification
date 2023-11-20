@@ -18,7 +18,16 @@
 
             @if(isset($predictions))
             <div class="justify-content-center align-items-center d-flex">
-                <p class="fs-5 fw-bolder">Prediction : <span class="fw-normal">{{ $predictions }}</span></p>
+                @if($predictions === 'none')
+                <div class="text-center">
+                    <p class="fs-5 fw-bolder"><span class="fw-normal">Model is not confident in any class</span></p>
+                </div>
+                @else
+                <div>
+                    <p class="fs-5 fw-bolder">Prediction : <span class="fw-normal">{{ $predictions }}</span></p>
+                    <p class="fs-5 fw-bolder">Probability : <span class="fw-normal">{{ $prob_percentage }}</span></p>
+                </div>
+                @endif
             </div>
             @else
             <p>No Prediction Found.</p>

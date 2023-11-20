@@ -14,6 +14,7 @@
                         <th scope="col">No</th>
                         <th scope="col">Image</th>
                         <th scope="col">Prediction</th>
+                        <th scope="col">Probability</th>
                         <th scope="col">Timestamp</th>
                         <th scope="col">Action</th>
                     </tr>
@@ -26,6 +27,7 @@
                             <img src="{{ asset('/storage/images/' . basename( $data->path )) }}" alt="Uploaded Image" style="height: 100px; width: 100px; border-radius:10px" class="border border-dark m-2">
                         </td>
                         <td class="align-middle">{{ $data->prediction }}</td>
+                        <td class="align-middle">{{ $data->probability }}</td>
                         <td class="align-middle">{{ $data->created_at }}</td>
                         <td class="align-middle"><a class="btn btn-danger" href="/history/admin/delete/{{ $data->id }}">Delete</a></td>
                     </tr>

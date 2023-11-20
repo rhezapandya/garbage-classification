@@ -38,7 +38,6 @@ class ModelTestController extends Controller
     public function history_delete(Request $request)
     {
         $id = $request->route('id');
-        $images = Image::all();
 
         if ($id == null) {
             return redirect('/history/admin');
@@ -51,7 +50,7 @@ class ModelTestController extends Controller
     public function makePrediction(Request $request)
     {
         $request->validate([
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'required|image|mimes:jpeg,png,jpg,jfif|max:2048',
         ]);
 
         $data = [
@@ -65,21 +64,31 @@ class ModelTestController extends Controller
         )->post('http://127.0.0.1:5000/predict', $data);
 
         if ($response->successful()) {
-            $predictions = $response->json('prediction');
+            $predictions = $response->json('Prediction');
+            $class = $response->json('Class');
+            $prob_percentage = $response->json('ProbabilityPercentage');
+
             $imagePath = $request->file('image')->store('public/images');
             $relativeImagePath = str_replace('public/', '', $imagePath);
 
             $image = new Image();
             $image->path = $relativeImagePath;
             $image->prediction = $predictions;
+            if ($predictions !== 'none') {
+                $image->probability = $prob_percentage;
+            } else if ($predictions === 'none') {
+                $image->probability = 'none';
+            }
             $image->save();
 
             return view('predict', [
                 'predictions' => $predictions,
+                'class' => $class,
+                'prob_percentage' => $prob_percentage,
                 'imagePath' => $imagePath
             ]);
         } else {
-            return view('predict');
+            return redirect('/classification');
         }
     }
 }

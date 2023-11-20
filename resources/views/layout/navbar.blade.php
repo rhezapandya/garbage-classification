@@ -12,19 +12,26 @@
                 </a>
             </div>
 
-            <div class=" col-4 text-center align-items-center justify-content-center">
+            <?php
+            function isActive($page)
+            {
+                return $_SERVER['REQUEST_URI'] === $page;
+            }
+            ?>
+            <div class="col-4 text-center align-items-center justify-content-center">
                 <ul class="nav align-items-center justify-content-center">
-                    <li class="nav-item active">
-                        <a class="nav-link font-bolder text-black hover:text-[#97D729]" style="font-family: 'Monsterrat', sans-serif;" href="/">Home</a>
+                    <li class="nav-item">
+                        <a class="nav-link hover:text-[#97D729] <?php echo isActive('/') ? 'text-[#97D729] font-bold' : 'text-black font-bolder'; ?>" style="font-family: 'Montserrat', sans-serif;" href="/">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link font-bolder text-black hover:text-[#97D729]" style="font-family: 'Monsterrat', sans-serif;" href="/classification">Classification</a>
+                        <a class="nav-link hover:text-[#97D729] <?php echo isActive('/classification') ? 'text-[#97D729] font-bold' : 'text-black font-bolder'; ?>" style="font-family: 'Montserrat', sans-serif;" href="/classification">Classification</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link font-bolder text-black hover:text-[#97D729]" style="font-family: 'Monsterrat', sans-serif;" href="/history">History</a>
+                        <a class="nav-link hover:text-[#97D729] <?php echo isActive('/history') ? 'text-[#97D729] font-bold' : 'text-black font-bolder'; ?>" style="font-family: 'Montserrat', sans-serif;" href="/history">History</a>
                     </li>
                 </ul>
             </div>
+
             <div class="col-4 align-items-center justify-content-center"><br></div>
         </div>
     </div>

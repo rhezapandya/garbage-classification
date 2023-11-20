@@ -13,12 +13,11 @@
             <form method="POST" action="{{ route('make-prediction') }}" enctype="multipart/form-data" class="text-center align-items-center justify-content-center">
                 @csrf
                 <div class="text-center justify-content-center align-items-center mb-4">
-                    <input type="file" name="image" accept="image/*" style="color:black;" class="ml-20">
+                    <input type="file" name="image" accept="image/*" style="color:black;" class="ml-20" required>
                 </div>
                 <div class="text-center justify-content-center align-items-center mt-4">
                     <button type="submit" class="btn bg-[#97D729] w-max p-3 fs-4 fw-bold btn-outline-dark hover:bg-[#97D729]" style="color:black; font-family: 'Montserrat', sans-serif; transition: opacity 0.2s ease;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'" href="/classification">Classify Image</button>
                 </div>
-                <!-- <button type="submit" style="color:black">Classify Image</button> -->
             </form>
         </div>
     </div>
