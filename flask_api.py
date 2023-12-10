@@ -30,7 +30,6 @@ def predict():
         waste_labels = {0: "cardboard", 1: "glass",
                         2: "metal", 3: "paper", 4: "plastic", 5: "trash"}
 
-        threshold = 0.8
         response = ''
 
         predicted_class_index = np.argmax(class_probabilities)
@@ -41,15 +40,9 @@ def predict():
         predicted_class_probability_percentage = "{:.2f}%".format(
             predicted_class_probability * 100)
 
-        if predicted_class_probability > threshold:
-            response = {'Prediction': predicted_class_label,
-                        'Class': predicted_class_label,
-                        'ProbabilityPercentage': predicted_class_probability_percentage}
-        else:
-            response = {'Prediction': 'none',
-                        'Class': predicted_class_label,
-                        'ProbabilityPercentage': predicted_class_probability_percentage,
-                        }
+        response = {'Prediction': predicted_class_label,
+                    'Class': predicted_class_label,
+                    'ProbabilityPercentage': predicted_class_probability_percentage}
 
         print(response)
         return jsonify(response)
