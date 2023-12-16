@@ -53,42 +53,28 @@ class ModelTestController extends Controller
             'image' => 'required|image|mimes:jpeg,png,jpg,jfif|max:2048',
         ]);
 
-        $data = [
-            'image' => $request->file('image'),
-        ];
+        $predictions = $request->text1;
+        $class = $request->text2;
+        $prob_percentage = $request->text3;
 
-        $response = Http::attach(
-            'image',
-            file_get_contents($request->file('image')->getRealPath()),
-            'image.jpg'
-        )->post('http://127.0.0.1:5000/predict', $data);
+        $imagePath = $request->file('image')->store('public/images');
+        $relativeImagePath = str_replace('public/', '', $imagePath);
 
-        if ($response->successful()) {
-            $predictions = $response->json('Prediction');
-            $class = $response->json('Class');
-            $prob_percentage = $response->json('ProbabilityPercentage');
-
-            $imagePath = $request->file('image')->store('public/images');
-            $relativeImagePath = str_replace('public/', '', $imagePath);
-
-            $image = new Image();
-            $image->path = $relativeImagePath;
-            $image->prediction = $predictions;
-            if ($predictions !== 'none') {
-                $image->probability = $prob_percentage;
-            } else if ($predictions === 'none') {
-                $image->probability = 'none';
-            }
-            $image->save();
-
-            return view('predict', [
-                'predictions' => $predictions,
-                'class' => $class,
-                'prob_percentage' => $prob_percentage,
-                'imagePath' => $imagePath
-            ]);
-        } else {
-            return redirect('/classification');
+        $image = new Image();
+        $image->path = $relativeImagePath;
+        $image->prediction = $predictions;
+        if ($predictions !== 'none') {
+            $image->probability = $prob_percentage;
+        } else if ($predictions === 'none') {
+            $image->probability = 'none';
         }
+        $image->save();
+
+        return view('predict', [
+            'predictions' => $predictions,
+            'class' => $class,
+            'prob_percentage' => $prob_percentage,
+            'imagePath' => $imagePath
+        ]);
     }
 }

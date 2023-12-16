@@ -2,14 +2,24 @@ from flask import Flask, request, jsonify
 import numpy as np
 import tempfile
 import tensorflow as tf
+from flask_cors import CORS, cross_origin
 from keras.models import load_model
 from keras.preprocessing.image import load_img, img_to_array
 
 app = Flask(__name__)
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 model = load_model('GarbageClassification-1.h5')
 
 
+@app.route('/test')
+@cross_origin
+def test():
+    return 'FLASK RUNNING'
+
+
 @app.route('/predict', methods=['POST'])
+@cross_origin()
 def predict():
     try:
         image_file = request.files['image']
@@ -53,4 +63,4 @@ def predict():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    app.run(debug=True, ssl_context='adhoc', host='0.0.0.0', port=5000)

@@ -17,16 +17,65 @@
                 Cardboard, Glass, Metal, Paper, Plastic, or Trash
             </h2>
 
-            <form method="POST" action="{{ route('make-prediction') }}" enctype="multipart/form-data" class="text-center align-items-center justify-content-center">
+            <form method="POST" id="form" action="{{ route('make-prediction') }}" enctype="multipart/form-data" class="text-center align-items-center justify-content-center">
                 @csrf
                 <div class="text-center justify-content-center align-items-center mb-4">
-                    <input type="file" name="image" accept="image/*" style="color:black;" class="ml-20" required>
-                </div>
-                <div class="text-center justify-content-center align-items-center mt-4">
-                    <button type="submit" class="btn bg-[#97D729] w-max p-3 text-md sm:text-xl md:text-2xl lg:text-2xl xl:text-2xl 2xl:text-2xl fw-bold btn-outline-dark hover:bg-[#97D729]" style="color:black; font-family: 'Montserrat', sans-serif; transition: opacity 0.2s ease;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'" href="/classification">Classify Image</button>
+                    <input type="text" name="text1" id="text1" style="color:black; display:none; border:1px solid black" class="ml-20">
+                    <input type="text" name="text2" id="text2" style="color:black; display:none; border:1px solid black" class="ml-20">
+                    <input type="text" name="text3" id="text3" style="color:black; display:none; border:1px solid black" class="ml-20">
+                    <input type="file" name="image" id="image" accept="image/*" style="color:black;" class="ml-20" required>
                 </div>
             </form>
+            <div class="text-center align-items-center justify-content-center">
+                <button id="predictBtn" class=" btn bg-[#97D729] w-max p-3 text-md sm:text-xl md:text-2xl lg:text-2xl xl:text-2xl 2xl:text-2xl fw-bold btn-outline-dark hover:bg-[#97D729]" style="color:black; font-family: 'Montserrat', sans-serif; transition: opacity 0.2s ease;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">Classify Image</button>
+            </div>
         </div>
     </div>
 </div>
+
+<script>
+    document.getElementById('predictBtn').addEventListener('click', function() {
+        var input = document.getElementById('image');
+        var imageFile = input.files[0];
+
+        if (imageFile) {
+            var formData = new FormData();
+            formData.append('image', imageFile);
+
+            fetch('https://143.198.204.170:5000/predict', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // Handle the response data here
+                    console.log(data);
+
+                    // Assuming the form has the id "form"
+                    var form = document.getElementById('form');
+
+                    // Add a hidden input for the response data
+                    var responseInput = document.createElement('input');
+                    responseInput.type = 'hidden';
+                    responseInput.name = 'responseData';
+                    responseInput.value = JSON.stringify(data);
+                    form.appendChild(responseInput);
+
+                    // Update values of text inputs with specific properties from the data
+                    document.getElementById('text1').value = data.Class; // Property 'Class'
+                    document.getElementById('text2').value = data.Prediction; // Property 'Prediction'
+                    document.getElementById('text3').value = data.ProbabilityPercentage; // Property 'ProbabilityPercentage'
+
+                    // Submit the form
+                    form.submit();
+                })
+                .catch(error => {
+                    // Handle errors here
+                    console.error('Error:', error);
+                });
+        } else {
+            console.error('No image selected');
+        }
+    });
+</script>
 @endsection
