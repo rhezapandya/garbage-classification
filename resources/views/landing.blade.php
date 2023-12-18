@@ -48,29 +48,20 @@
                 })
                 .then(response => response.json())
                 .then(data => {
-                    // Handle the response data here
-                    console.log(data);
-
-                    // Assuming the form has the id "form"
                     var form = document.getElementById('form');
-
-                    // Add a hidden input for the response data
                     var responseInput = document.createElement('input');
                     responseInput.type = 'hidden';
                     responseInput.name = 'responseData';
                     responseInput.value = JSON.stringify(data);
                     form.appendChild(responseInput);
 
-                    // Update values of text inputs with specific properties from the data
-                    document.getElementById('text1').value = data.Class; // Property 'Class'
-                    document.getElementById('text2').value = data.Prediction; // Property 'Prediction'
-                    document.getElementById('text3').value = data.ProbabilityPercentage; // Property 'ProbabilityPercentage'
+                    document.getElementById('text1').value = data.Class;
+                    document.getElementById('text2').value = data.Prediction;
+                    document.getElementById('text3').value = data.ProbabilityPercentage;
 
-                    // Submit the form
                     form.submit();
                 })
                 .catch(error => {
-                    // Handle errors here
                     console.error('Error:', error);
                 });
         } else {
