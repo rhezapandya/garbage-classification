@@ -6,7 +6,7 @@
                     <div class="d-flex align-items-center">
                         <img src="{{ asset('/logo.png') }}" width="60" height="60" class="d-inline-block align-item-center" alt="">
                         <h1 class="font-bold" style="margin-left:1rem; font-family: 'Poppins', sans-serif;">
-                            Garbage<br>Classification
+                            WasteXpert
                         </h1>
                     </div>
                 </a>
@@ -29,6 +29,9 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link hover:text-[#97D729] <?php echo isActive('/history') ? 'text-[#97D729] font-bold' : 'text-black font-bolder'; ?>" style="font-family: 'Montserrat', sans-serif;" href="/history">History</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link hover:text-[#97D729] <?php echo isActive('/about') ? 'text-[#97D729] font-bold' : 'text-black font-bolder'; ?>" style="font-family: 'Montserrat', sans-serif;" href="/about">About</a>
                     </li>
                 </ul>
             </div>

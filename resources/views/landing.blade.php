@@ -6,9 +6,9 @@
 <div class="flex justify-center items-center min-h-screen bg-dots-darker bg-center bg-white-100 dark:bg-dots-lighter dark:bg-white-900">
     <div class="mx-auto px-auto">
         <div class="grid gap-6 lg:gap-8">
-            <h1 class="fw-bold text-center text-3xl sm:text-3xl md:text-4xl lg:text-4xl xl:text-4xl 2xl:text-4xl" style="color:black; font-family: 'Montserrat', sans-serif;">Classify Garbage</h1>
+            <h1 class="fw-bold text-center text-3xl sm:text-3xl md:text-4xl lg:text-4xl xl:text-4xl 2xl:text-4xl" style="color:black; font-family: 'Montserrat', sans-serif;">Classify Waste</h1>
             <h2 class="fw-light text-center mx-4 text-xl sm:text-xl md:text-2xl lg:text-2xl xl:text-2xl 2xl:text-2xl{{ Request::is('classification') ? 'sm:break-all md:break-all lg:break-all' : '' }}" style="color:black; font-family: 'Montserrat', sans-serif;">
-                Classify your garbage's image to these class.
+                Classify your waste's image to these class.
                 @if(Request::is('classification'))
                 <br class="hidden sm:block md:block lg:block" />
                 @else

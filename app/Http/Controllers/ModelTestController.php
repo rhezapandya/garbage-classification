@@ -13,6 +13,16 @@ class ModelTestController extends Controller
         return view('landing');
     }
 
+    public function about()
+    {
+        return view('about');
+    }
+
+    public function about_model()
+    {
+        return view('about-model');
+    }
+
     public function history()
     {
         $images = Image::all();
